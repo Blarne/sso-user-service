@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  sso-user:
+      container_name: sso-user-microservice
+      image: karumien/sso-user-service:latest
+      environment:
+        AUTH_SERVER_URL: http://sso.karumien.com/auth
+        REALM: eurowag
+      ports:
+        - 2205:2205
+      restart: always
