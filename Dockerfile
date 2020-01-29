@@ -10,6 +10,7 @@ RUN mvn install
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/sso-user-service-1.0.0-SNAPSHOT.jar /app
+ADD TestSSL.class /tmp
 #ADD digcert.cer /etc/ssl/certs/
 #RUN echo "yes" | $JAVA_HOME/bin/keytool -import -trustcacerts -file /etc/ssl/certs/digcert.cer -alias digcert-root-ca -keystore
 EXPOSE 2205
