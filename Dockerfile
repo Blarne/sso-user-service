@@ -10,9 +10,15 @@ RUN mvn install
 FROM openjdk:8-jre
 WORKDIR /app
 COPY --from=build /app/target/sso-user-service-1.0.0-SNAPSHOT.jar /app
-ADD TestSSL.class /tmp
+#ADD TestSSL.class /tmp
 #ADD digcert.cer /etc/ssl/certs/
 #RUN echo "yes" | $JAVA_HOME/bin/keytool -import -trustcacerts -file /etc/ssl/certs/digcert.cer -alias digcert-root-ca -keystore
+
+RUN apt-get update; \
+	  apt-get install -y dnsutils; \
+    echo "10.48.148.190 login-test.eurowag.com" >> /etc/hosts; \
+    echo "10.48.148.125 login-uat.eurowag.com" >> /etc/hosts
+
 EXPOSE 2205
 ENTRYPOINT ["sh", "-c"]
 CMD ["java -jar sso-user-service-1.0.0-SNAPSHOT.jar"]
