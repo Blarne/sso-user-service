@@ -7,7 +7,7 @@ WORKDIR /app
 COPY --from=clone /app/sso-user-service /app
 RUN mvn install
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jre
 WORKDIR /app
 COPY --from=build /app/target/sso-user-service-1.0.0-SNAPSHOT.jar /app
 ADD TestSSL.class /tmp
