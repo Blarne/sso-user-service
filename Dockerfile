@@ -15,10 +15,16 @@ COPY --from=build /app/target/sso-user-service-1.0.0-SNAPSHOT.jar /app
 #RUN echo "yes" | $JAVA_HOME/bin/keytool -import -trustcacerts -file /etc/ssl/certs/digcert.cer -alias digcert-root-ca -keystore
 
 RUN apt-get update; \
-	  apt-get install -y dnsutils; \
-    echo "10.48.148.190 login-test.eurowag.com" >> /etc/hosts; \
-    echo "10.48.148.125 login-uat.eurowag.com" >> /etc/hosts
+    apt-get install -y dnsutils; \
+    apt-get install -y procps
+#    echo "10.48.148.190 login-test.eurowag.com" >> /etc/hosts; \
+#    echo "10.48.148.125 login-uat.eurowag.com" >> /etc/hosts
+
+ADD start.sh /app
+RUN chmod +x /app/start.sh
 
 EXPOSE 2205
 ENTRYPOINT ["sh", "-c"]
-CMD ["java -jar sso-user-service-1.0.0-SNAPSHOT.jar"]
+
+#CMD ["java -jar sso-user-service-1.0.0-SNAPSHOT.jar"]
+CMD ["/app/start.sh"]
